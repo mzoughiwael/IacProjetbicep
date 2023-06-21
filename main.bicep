@@ -1,8 +1,8 @@
 // Déclaration des paramètres
 
-param location string = resourceGroup().location
+param location string = 'eastus'
 
-param rgName string = 'chabbouh78'
+param resourceGroupName string = 'myResourceGroup'
 
 param vnetName string = 'chabbouhTestVnet'
 
@@ -24,25 +24,10 @@ param nsgName string = 'chabbouhNSG'
 
 // Création Resource Group
 
-resource rg 'Microsoft.Storage/storageAccounts@2022-09-01'= {
-
-  name: rgName
-
+resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+  name: resourceGroupName
   location: location
-
-  kind: 'StorageV2'
-
-  sku: {
-
-      name: 'Standard_LRS'
-
-    }
-
- 
-
 }
-
- 
 
 // Création Virtual Network
 
@@ -176,7 +161,7 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2023-03-01' = {
 
     hardwareProfile: {
 
-      vmSize: 'Standard_DS2_v2'
+      vmSize: 'Standard_A1_v2'
 
     }
 
@@ -225,6 +210,11 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2023-03-01' = {
         }
 
       ]
+
+    }
+    tags: {
+
+      '${chabbouh}': '${pfe}'
 
     }
 
