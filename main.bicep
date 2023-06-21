@@ -102,6 +102,9 @@ resource publicIp 'Microsoft.Network/publicIPAddresses@2021-02-01' = {
     publicIPAllocationMethod: 'Dynamic'
 
   }
+  tags: {
+    course: 'az900'
+  }
 
 }
 
@@ -214,11 +217,7 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2023-03-01' = {
       ]
 
     }
-    tags: {
-
-      '${tag1}': '${tag2}'
-
-    }
+ 
 
   }
 
