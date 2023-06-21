@@ -1,8 +1,9 @@
+
 // Déclaration des paramètres
 
-param location string = 'eastus'
+param location string = resourceGroup().location
 
-param resourceGroupName string = 'myResourceGroup'
+
 
 param vnetName string = 'chabbouhTestVnet'
 
@@ -11,8 +12,7 @@ param subnetName string = 'chabbouhTestSubnet'
 param vmName string = 'chabbouhTestVm'
 
 param adminUsername string = 'chabbouhUserName'
-param tag1 string ='chabbouh'
-param tag2 string = 'course'
+
 
 @secure()
 
@@ -24,12 +24,6 @@ param nsgName string = 'chabbouhNSG'
 
  
 
-// Création Resource Group
-
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
-  name: resourceGroupName
-  location: location
-}
 
 // Création Virtual Network
 
