@@ -11,6 +11,8 @@ param subnetName string = 'chabbouhTestSubnet'
 param vmName string = 'chabbouhTestVm'
 
 param adminUsername string = 'chabbouhUserName'
+param tag1 string ='chabbouh'
+param tag2 string = 'course'
 
 @secure()
 
@@ -214,7 +216,7 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2023-03-01' = {
     }
     tags: {
 
-      '${chabbouh}': '${pfe}'
+      '${tag1}': '${tag2}'
 
     }
 
