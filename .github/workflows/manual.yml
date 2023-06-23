@@ -35,7 +35,8 @@ jobs:
         run: az deployment sub create --subscription "Microsoft Azure Sponsorship" --location eastus  --template-file ResourceGroup.bicep
     
       - name: create KeyVault
-        run:  password=$(openssl rand -base64 12)
+        run: |
+          password=$(openssl rand -base64 12)
 
       - name: Deploy Bicep Template
-        run: az deployment group create --resource-group pfeIacRg --template-file main.bicep --parameters adminPasswordd=${{ secrets.password }}
+        run: az deployment group create --resource-group pfeIacRg --template-file main.bicep --parameters adminPasswordd=$password
