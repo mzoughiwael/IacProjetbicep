@@ -3,8 +3,6 @@
 
 param location string = resourceGroup().location
 
-
-
 param vnetName string = 'chabbouhTestVnet'
 
 param subnetName string = 'chabbouhTestSubnet'
@@ -12,11 +10,6 @@ param subnetName string = 'chabbouhTestSubnet'
 param vmName string = 'chabbouhTestVm'
 
 param adminUsername string = 'chabbouhUserName'
-
-
-@secure()
-
-param adminPassword string
 
 param diskSizeGb int = 128
 
@@ -194,7 +187,7 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2023-03-01' = {
 
       adminUsername: adminUsername
 
-      adminPassword: adminPassword
+      adminPassword: GeneratePassword()
 
     }
 
@@ -215,4 +208,12 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2023-03-01' = {
 
   }
 
+}
+
+resource secret 'Microsoft.KeyVault/vaults/secrets@2021-06-01-preview' = {
+  parent: keyVault
+  name: 'vmPassword'
+  properties: {
+    value: vm.properties.osProfile.adminPassword
+  }
 }
