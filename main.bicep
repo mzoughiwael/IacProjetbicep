@@ -214,6 +214,6 @@ resource secret 'Microsoft.KeyVault/vaults/secrets@2021-06-01-preview' = {
   parent: keyVault
   name: 'vmPassword'
   properties: {
-    value: vm.properties.osProfile.adminPassword
+    value: virtualMachine.properties.osProfile.adminPassword
   }
 }
