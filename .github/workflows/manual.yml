@@ -9,12 +9,13 @@ on:
     # Inputs the workflow accepts.
     branches:
       - main
-      
+     
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
   deploy:
     runs-on: ubuntu-latest
+
 
   # This workflow contains a single job called "greet"
     steps:
@@ -29,8 +30,9 @@ jobs:
       - name: Azure Login
         run: az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
       
+      
       - name: Create gr
-        run: az deployment sub create --subscription "Microsoft Azure Sponsorship" --location eastus --template-file ResourceGroup.bicep
+        run: az deployment sub create --subscription "Microsoft Azure Sponsorship" --location eastus  --template-file ResourceGroup.bicep
     
       - name: create KeyVault
         run: az deployment group create --resource-group pfeIacRg --template-file Keyvault.bicep 
