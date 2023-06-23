@@ -30,7 +30,7 @@ jobs:
         run: az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
       
       - name: Create gr
-        run: az deployment sub create --subscription "Microsoft Azure Sponsorship" --location eastus --template-file ResourceGroup.bicep
+        run: az deployment sub create --subscription "Microsoft Azure Sponsorship"  --template-file ResourceGroup.bicep
     
       - name: create KeyVault
         run: az deployment group create --resource-group pfeIacRg --template-file Keyvault.bicep 
