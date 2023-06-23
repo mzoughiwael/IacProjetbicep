@@ -1,8 +1,8 @@
 param location string = resourceGroup().location
 
 param tenantId string = subscription().tenantId
-@secure()
-param objectId string
+
+param objectId string = '274fe8d6-8e30-429b-9325-efe88ec28e11'
 
 
 
