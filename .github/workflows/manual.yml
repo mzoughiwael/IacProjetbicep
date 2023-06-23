@@ -38,4 +38,4 @@ jobs:
         run:  password=$(openssl rand -base64 12)
 
       - name: Deploy Bicep Template
-        run: az deployment group create --resource-group pfeIacRg --template-file main.bicep --parameters adminPassword=${{ secrets.VM_PASSWORD_AZUR }} adminPasswordd=$password
+        run: az deployment group create --resource-group pfeIacRg --template-file main.bicep --parameters adminPasswordd=$password
