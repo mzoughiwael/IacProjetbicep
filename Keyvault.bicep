@@ -1,5 +1,7 @@
 param location string = resourceGroup().location
+@secure()
 param tenantId string
+@secure()
 param objectId string
 
 
