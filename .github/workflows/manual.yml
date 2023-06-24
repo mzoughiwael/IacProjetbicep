@@ -39,7 +39,8 @@ jobs:
       - name: create KeyVault
         id: generate_password
         run: |
-          echo "GENERATED_PASSWORD=$(openssl rand -base64 12)" >> $GITHUB_ENV
+          sudo apt-get -y install pwgen
+          echo "GENERATED_PASSWORD=$(pwgen -1snc 12)" >> $GITHUB_ENV
 
 
       - name: Deploy Bicep Template
