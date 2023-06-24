@@ -39,8 +39,8 @@ jobs:
       - name: create KeyVault
         id: generate_password
         run: |
-          echo "##[set-env name=GENERATED_PASSWORD]$(openssl rand -base64 12)"
+          echo "GENERATED_PASSWORD=$(openssl rand -base64 12)" >> $GITHUB_ENV
 
 
       - name: Deploy Bicep Template
-        run: az deployment group create --resource-group pfeIacRg --template-file main.bicep --parameters adminPassword='{{ env.GENERATED_PASSWORD  }}'
+        run: az deployment group create --resource-group pfeIacRg --template-file main.bicep --parameters adminPassword='$GENERATED_PASSWORD'
