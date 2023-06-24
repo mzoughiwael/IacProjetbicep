@@ -39,7 +39,8 @@ jobs:
         run: |
           Password=$(openssl rand -base64 12)
           echo "Mot de passe généré : $Password"
+          echo "::set-output name=generatedPassword::$Password"
 
 
       - name: Deploy Bicep Template
-        run: az deployment group create --resource-group pfeIacRg --template-file main.bicep --parameters adminPassword=${{ steps.generate_password.outputs.Password }}
+        run: az deployment group create --resource-group pfeIacRg --template-file main.bicep --parameters adminPassword='{{ steps.generate_password.outputs.Password }}'
