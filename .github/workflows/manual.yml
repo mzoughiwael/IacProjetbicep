@@ -42,4 +42,4 @@ jobs:
 
 
       - name: Deploy Bicep Template
-        run: az deployment group create --resource-group pfeIacRg --template-file main.bicep --parameters adminPasswordd= ${{ steps.generate_password.outputs.Password }}
+        run: az deployment group create --resource-group pfeIacRg --template-file main.bicep --parameters adminPasswordd=${{ steps.generate_password.outputs.Password }}
