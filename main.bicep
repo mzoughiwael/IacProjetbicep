@@ -54,7 +54,7 @@ param nsgName string = 'chabbouhNSG'
 
 @secure()
 
-param adminPasswordd string
+param adminPassword string
 
 
  
@@ -229,7 +229,7 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2023-03-01' = {
 
       adminUsername: adminUsername
 
-      adminPassword: adminPasswordd
+      adminPassword: adminPassword
 
       linuxConfiguration: {
         disablePasswordAuthentication: false
