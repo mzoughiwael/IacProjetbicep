@@ -36,9 +36,8 @@ jobs:
     
       - name: create KeyVault
         run: |
-          password=$(openssl rand -base64 12)
-          echo "Mot de passe généré : $password"
+          echo "::set-env name=PASSWORD::$(openssl rand -base64 12)"
 
 
       - name: Deploy Bicep Template
-        run: az deployment group create --resource-group pfeIacRg --template-file main.bicep --parameters adminPasswordd=${{ password }}
+        run: az deployment group create --resource-group pfeIacRg --template-file main.bicep --parameters adminPasswordd=${{ env.PASSWORD }}
