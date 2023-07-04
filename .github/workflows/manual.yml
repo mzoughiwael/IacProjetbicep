@@ -60,6 +60,16 @@ jobs:
           
       - name: Install SSH client
         run: sudo apt-get install -y openssh-client
+        
+      - name: SSH to VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: vm_info
+          username: ${{ steps.vm_info.outputs.username }}
+          password: ${{ steps.vm_info.outputs.password }}
+          script: |
+            
+            echo "Connected to Azure VM"
 
 
      
