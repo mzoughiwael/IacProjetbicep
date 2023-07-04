@@ -30,6 +30,7 @@ jobs:
       - name: Azure Login
         run: az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
       
+      
       - name: Create gr
         run: az deployment sub create --subscription "Microsoft Azure Sponsorship" --location eastus --template-file ResourceGroup.bicep
       
