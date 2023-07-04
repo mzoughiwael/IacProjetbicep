@@ -44,7 +44,7 @@ jobs:
         
       - name: Get VM IP address
         run: |
-          vm_info=$(az vm show --resource-group pfeIacRg1 --name vmName --query publicIps --output tsv)
+          vm_info=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query publicIps --output tsv)
           echo "VM IP address: $vm_info"
 
 
