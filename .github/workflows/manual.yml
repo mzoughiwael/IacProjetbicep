@@ -47,6 +47,10 @@ jobs:
         run: |
           vm_info=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query publicIps --output tsv)
           echo "VM IP address: $vm_info"
+          username=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminUsername' --output tsv)
+          password=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminPassword' --output tsv)
+          echo "VM username: $username"
+          echo "VM password: $password"
 
 
      
