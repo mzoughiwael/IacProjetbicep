@@ -35,6 +35,7 @@ jobs:
       - name: Deploy 
         run: az account list --output table
       
+      
       - name: Create gr
         run: az deployment sub create --subscription "TMT-NON-PROD-PLATFORM-01" --location eastus --template-file ResourceGroup.bicep
              
