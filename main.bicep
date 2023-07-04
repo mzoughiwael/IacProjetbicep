@@ -2,39 +2,6 @@
 
 param location string = resourceGroup().location
 
-param tenantId string = subscription().tenantId
-
-param objectId string = '274fe8d6-8e30-429b-9325-efe88ec28e11'
-
-
-
-resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
-  name: 'pfeIacKv'
-  location: location
-  properties: {
-    sku: {
-      name: 'standard'
-      family: 'A'
-    }
-    tenantId: subscription().tenantId
-    accessPolicies: [
-      {
-        tenantId: tenantId
-        objectId: objectId
-        permissions: {
-          secrets: ['get', 'set']
-        }
-      }
-    ]
-  }
-}
-
-
-
-
-
-
-
 
 // Déclaration des paramètres
 
@@ -54,7 +21,7 @@ param nsgName string = 'chabbouhNSG'
 
 @secure()
 
-param adminPassword string
+param adminPassword string = 'Marwen@12345'
 
 
  
@@ -256,10 +223,4 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2023-03-01' = {
 
 }
 
-resource secret 'Microsoft.KeyVault/vaults/secrets@2021-06-01-preview' = {
-  parent: keyVault
-  name: 'vmPassword'
-  properties: {
-    value: virtualMachine.properties.osProfile.adminPassword
-  }
-}
+
