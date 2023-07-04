@@ -29,16 +29,15 @@ jobs:
           az version
           
       - name: Azure Login
-        run: az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+        run: az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}      
       
+      - name: Deploy 
+        run: az account list --output table
       
       - name: Create gr
         run: az deployment sub create --subscription "Microsoft Azure Sponsorship" --location eastus --template-file ResourceGroup.bicep
              
-             
-      - name: Deploy Bicep Template
-        run: az account list --output table
-
+     
       - name: Deploy Bicep Template
         run: az deployment group create --resource-group pfeIacRg1 --template-file main.bicep
 
