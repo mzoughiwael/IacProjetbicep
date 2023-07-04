@@ -51,6 +51,15 @@ jobs:
           password=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminPassword' --output tsv)
           echo "VM username: $username"
           echo "VM password: $password"
+          
+      - name: Open ports on VM
+        run: |
+          az vm open-port --resource-group <your-resource-group> --name <your-vm-name> --port 22 --priority 1001 --priority 1002 --protocol Tcp
+          az vm open-port --resource-group <your-resource-group> --name <your-vm-name> --port 80 --priority 1003 --protocol Tcp
+          az vm open-port --resource-group <your-resource-group> --name <your-vm-name> --port 443 --priority 1004 --protocol Tcp
+          
+      - name: Install SSH client
+        run: sudo apt-get install -y openssh-client
 
 
      
