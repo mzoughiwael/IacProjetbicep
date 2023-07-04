@@ -54,9 +54,9 @@ jobs:
           
       - name: Open ports on VM
         run: |
-          az vm open-port --resource-group pfeIacRg1  --name chabbouhTestVm --port 22 --priority 1001 --priority 1002 
-          az vm open-port --resource-group pfeIacRg1  --name chabbouhTestVm --port 80 --priority 1003 
-          az vm open-port --resource-group pfeIacRg1  --name chabbouhTestVm --port 443 --priority 1004 
+          az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name SSH --protocol Tcp --direction Inbound --priority 100 --destination-port-ranges 22
+          az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name HTTP --protocol Tcp --direction Inbound --priority 101 --destination-port-ranges 80
+          az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name HTTPS --protocol Tcp --direction Inbound --priority 102 --destination-port-ranges 443 
           
       - name: Install SSH client
         run: sudo apt-get install -y openssh-client
