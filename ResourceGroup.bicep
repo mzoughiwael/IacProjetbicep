@@ -1,4 +1,4 @@
-param location string 
+param location string = 'eastus'
 
 targetScope = 'subscription'
 
