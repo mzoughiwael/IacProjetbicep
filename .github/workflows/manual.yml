@@ -34,7 +34,11 @@ jobs:
       
       - name: Create gr
         run: az deployment sub create --subscription "Microsoft Azure Sponsorship" --location eastus --template-file ResourceGroup.bicep
-             az account list --output table
+             
+             
+      - name: Deploy Bicep Template
+        run: az account list --output table
+
       - name: Deploy Bicep Template
         run: az deployment group create --resource-group pfeIacRg1 --template-file main.bicep
 
