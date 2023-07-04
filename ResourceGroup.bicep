@@ -4,7 +4,7 @@ targetScope = 'subscription'
 
 resource azbicepresourcegroupe 'Microsoft.Resources/resourceGroups@2022-09-01' ={
   
-  name: 'pfeIacRg'
+  name: 'pfeIacRg1'
   location: location
 
 }
