@@ -36,13 +36,7 @@ jobs:
         run: az deployment sub create --subscription "Microsoft Azure Sponsorship" --location eastus  --template-file ResourceGroup.bicep
     
       - name: Deploy Bicep Template
-        run: az deployment group create --resource-group pfeIacRg --template-file Keyvault.bicep
-    
-      - name: create KeyVault
-        id: generate_password
-        run: |
-          password=$(az rest --method POST --uri 'https://pfeIacKv.vault.azure.net/keys/KEY_NAME/create?api-version=7.2' --header "Authorization: Bearer ${{ secrets.AZURE_TOKEN }}" --body '{"kty": "oct", "key_ops": ["unwrapKey", "wrapKey", "decrypt", "encrypt"], "key_size": 256, "attributes": {"enabled": true}, "key_attributes": {"expires": "2025-12-31T00:00:00+00:00", "notBefore": "2022-01-01T00:00:00+00:00", "created": "2022-01-01T00:00:00+00:00"}}' | jq -r '.value')
-          echo "::set-output name=password::$password"
+        run: az deployment group create --resource-group pfeIacRg --template-file main.bicep
 
 
      
