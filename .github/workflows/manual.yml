@@ -67,7 +67,8 @@ jobs:
           private_key_path=$(echo $sshkey_output)
           echo "{private_key_path}={private_key_path}" >> $GITHUB_OUTPUT
           echo "Private key path: $private_key_path"
-          ssh -identity_file private key path username@vm_info
+          echo "sshkey_output"
+          ssh -identity_file /home/runner/.ssh/ username@vm_info
 
 
         
