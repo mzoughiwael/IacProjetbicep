@@ -11,7 +11,8 @@ on:
     # Inputs the workflow accepts.
     branches:
       - main
-      
+ 
+ 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
@@ -45,24 +46,35 @@ jobs:
         
       - name: Get VM IP address
         run: |
-          vm_info=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query publicIps --output tsv)
-          echo "VM IP address: $vm_info"
+          avm_info=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query publicIps --output tsv)
+          echo "VM IP address: $avm_info"
           username=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminUsername' --output tsv)
           password=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminPassword' --output tsv)
           echo "VM username: $username"
           echo "VM password: $password"
-          echo "::set-output name=vm_ip_address::$vm_info"
-          echo "::set-output name=vm_username::$username"
-          echo "::set-output name=vm_password::$password"
+
           
       - name: Open ports on VM
         run: |
           az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name SSH --protocol Tcp --direction Inbound --priority 100 --destination-port-ranges 22
           az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name HTTP --protocol Tcp --direction Inbound --priority 101 --destination-port-ranges 80
-          az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name HTTPS --protocol Tcp --direction Inbound --priority 102 --destination-port-ranges 443 
+          az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name HTTPS --protocol Tcp --direction Inbound --priority 102 --destination-port-ranges 443
           
-      - name: Install SSH client
-        run: sudo apt-get install -y openssh-client
+      - name: SSH to VM
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ steps.vm_info.outputs.avm_info }}
+          username: ${{ steps.vm_info.outputs.username }}
+          password: ${{ steps.vm_info.outputs.password }}
+          script: |
+            echo "Connected to Azure VM"
+        
+        
+ 
+          
+          
+
+
         
   
 
