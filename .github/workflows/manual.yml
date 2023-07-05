@@ -46,7 +46,7 @@ jobs:
         
       - name: Get VM IP address
         run: |
-          avm_info=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm-nic --query 'publicIPAddress.id' --output tsv)
+          avm_info=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'networkProfile.networkInterfaces.id' --output tsv)
           echo "VM IP address: $avm_info"
           username=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminUsername' --output tsv)
           password=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminPassword' --output tsv)
