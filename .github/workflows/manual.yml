@@ -65,7 +65,7 @@ jobs:
           sudo apt-get install -y openssh-client
           sshkey_output=$(az sshkey create --name mySSHKey --resource-group pfeIacRg1)
           private_key_path=$(echo $sshkey_output | jq -r '.privateKeyPath')
-          echo "::set-output name=private_key_path::$private_key_path"
+          echo "{private_key_path}={private_key_path}" >> $GITHUB_OUTPUT
           echo "Private key path: $private_key_path"
           ssh -identity_file private_key_path username@vm_info
 
