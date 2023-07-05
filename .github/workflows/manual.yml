@@ -66,6 +66,7 @@ jobs:
           az sshkey create --name mySSHKey --resource-group pfeIacRg1
           private_key_path=$(az sshkey show --name mySSHKey --resource-group pfeIacRg1 --query 'privateKeyFile' --output tsv)
           echo "Private key path: $private_key_path"
+          ssh -identity_file /home/runner/.ssh/mySSHKey username@vm_info
         
   
 
