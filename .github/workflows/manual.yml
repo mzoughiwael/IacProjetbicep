@@ -63,9 +63,9 @@ jobs:
       - name: SSH to VM
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ steps.vm_info.outputs.avm_info }}
-          username: ${{ steps.vm_info.outputs.username }}
-          password: ${{ steps.vm_info.outputs.password }}
+          host: $avm_info
+          username: $username
+          password: $password
           script: |
             echo "Connected to Azure VM"
         
