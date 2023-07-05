@@ -46,8 +46,8 @@ jobs:
         
       - name: Get VM IP address
         run: |
-          vm_info=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query publicIps --output tsv)
-          echo "VM IP address: $vm_info"
+          avm_info=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query publicIps --output tsv)
+          echo "VM IP address: $avm_info"
           username=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminUsername' --output tsv)
           password=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminPassword' --output tsv)
           echo "VM username: $username"
@@ -63,7 +63,7 @@ jobs:
       - name: SSH to VM
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ steps.vm_info.outputs.vm_info }}
+          host: ${{ steps.vm_info.outputs.avm_info }}
           username: ${{ steps.vm_info.outputs.username }}
           password: ${{ steps.vm_info.outputs.password }}
           script: |
