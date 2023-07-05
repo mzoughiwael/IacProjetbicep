@@ -51,6 +51,9 @@ jobs:
           password=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminPassword' --output tsv)
           echo "VM username: $username"
           echo "VM password: $password"
+          echo "::set-output name=vm_ip_address::$vm_info"
+          echo "::set-output name=vm_username::$username"
+          echo "::set-output name=vm_password::$password"
           
       - name: Open ports on VM
         run: |
