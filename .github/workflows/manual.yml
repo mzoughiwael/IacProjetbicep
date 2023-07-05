@@ -58,17 +58,21 @@ jobs:
         run: |
           az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name SSH --protocol Tcp --direction Inbound --priority 100 --destination-port-ranges 22
           az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name HTTP --protocol Tcp --direction Inbound --priority 101 --destination-port-ranges 80
-          az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name HTTPS --protocol Tcp --direction Inbound --priority 102 --destination-port-ranges 443 
+          az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name HTTPS --protocol Tcp --direction Inbound --priority 102 --destination-port-ranges 443
           
-      - name: Install SSH client
-        run: |
-          sudo apt-get install -y openssh-client
-          sshkey_output=$(az sshkey create --name mySSHKey --resource-group pfeIacRg1)
-          private_key_path=$(echo $sshkey_output)
-          echo "{private_key_path}={private_key_path}" >> $GITHUB_OUTPUT
-          echo "Private key path: $private_key_path"
-          echo "$sshkey_output"
-          ssh -identity_file /home/runner/.ssh/ username@vm_info
+      - name: Generate SSH keys
+        run: ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa -N ""   
+        
+      - name: Add SSH public key to Azure VM
+        run: ssh-copy-id -i ~/.ssh/id_rsa.pub $username@$vm_info
+        
+      - name: SSH to Azure VM
+        run: ssh -i ~/.ssh/id_rsa $username@$vm_info 'echo "Hello, world!"'
+        
+        
+ 
+          
+          
 
 
         
