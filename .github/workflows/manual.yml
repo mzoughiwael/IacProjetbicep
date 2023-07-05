@@ -1,6 +1,8 @@
+
 # This is a basic workflow that is manually triggered
 
 name: Azure Deployment
+
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -9,15 +11,12 @@ on:
     # Inputs the workflow accepts.
     branches:
       - main
-
-
-
+      
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
   deploy:
     runs-on: ubuntu-latest
-
 
   # This workflow contains a single job called "greet"
     steps:
@@ -27,17 +26,45 @@ jobs:
       - name: Install Azure CLI
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+          az upgrade
           az version
-
+          
       - name: Azure Login
-        run: az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
+        run: az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}      
+      
+      - name: Deploy 
+        run: az account list --output table
       
       
       - name: Create gr
-        run: az deployment sub create --subscription "Microsoft Azure Sponsorship" --location eastus  --template-file ResourceGroup.bicep
-    
+        run: az deployment sub create --subscription "TMT-NON-PROD-PLATFORM-01" --location eastus --template-file ResourceGroup.bicep
+             
+     
       - name: Deploy Bicep Template
-        run: az deployment group create --resource-group pfeIacRg --template-file main.bicep
+        run: az deployment group create --resource-group pfeIacRg1 --template-file main.bicep
+        
+      - name: Get VM IP address
+        run: |
+          vm_info=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query publicIps --output tsv)
+          echo "VM IP address: $vm_info"
+          username=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminUsername' --output tsv)
+          password=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminPassword' --output tsv)
+          echo "VM username: $username"
+          echo "VM password: $password"
+          echo "::set-output name=vm_ip_address::$vm_info"
+          echo "::set-output name=vm_username::$username"
+          echo "::set-output name=vm_password::$password"
+          
+      - name: Open ports on VM
+        run: |
+          az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name SSH --protocol Tcp --direction Inbound --priority 100 --destination-port-ranges 22
+          az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name HTTP --protocol Tcp --direction Inbound --priority 101 --destination-port-ranges 80
+          az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name HTTPS --protocol Tcp --direction Inbound --priority 102 --destination-port-ranges 443 
+          
+      - name: Install SSH client
+        run: sudo apt-get install -y openssh-client
+        
+  
 
 
      
