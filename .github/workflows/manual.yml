@@ -68,6 +68,8 @@ jobs:
           password: $password
           script: |
             echo "Connected to Azure VM"
+            
+            
         
         
  
