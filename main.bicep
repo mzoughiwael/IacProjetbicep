@@ -19,7 +19,7 @@ param diskSizeGb int = 128
 
 param nsgName string = 'chabbouhNSG'
 
-@secure()
+
 
 param adminPassword string = 'Marwen@12345'
 
