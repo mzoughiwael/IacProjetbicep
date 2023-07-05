@@ -63,10 +63,13 @@ jobs:
       - name: Install SSH client
         run: |
           sudo apt-get install -y openssh-client
-          az sshkey create --name mySSHKey --resource-group pfeIacRg1
-          private_key_path=$(az sshkey show --name mySSHKey --resource-group pfeIacRg1 --query 'privateKeyFile' --output tsv)
+          sshkey_output=$(az sshkey create --name mySSHKey --resource-group pfeIacRg1)
+          private_key_path=$(echo $sshkey_output | jq -r '.privateKeyPath')
+          echo "::set-output name=private_key_path::$private_key_path"
           echo "Private key path: $private_key_path"
-          ssh -identity_file /home/runner/.ssh/ username@vm_info
+          ssh -identity_file private_key_path username@vm_info
+
+
         
   
 
