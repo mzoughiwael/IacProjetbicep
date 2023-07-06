@@ -1,6 +1,10 @@
 
 # This is a basic workflow that is manually triggered
-
+env:
+  avminfo: ''
+  username: ''
+  password: ''
+  
 name: Azure Deployment
 
 
@@ -53,6 +57,7 @@ jobs:
           password=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminPassword' --output tsv)
           echo "VM username: $username"
           echo "VM password: $password"
+
       
 
           
@@ -66,8 +71,8 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: ${{ env.avminfo }}
-          username: $username
-          password: $password
+          username: ${{ env.username }} 
+          password: ${{ env.password }} 
           script: |
             echo "Connected to Azure VM"
             
