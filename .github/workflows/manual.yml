@@ -2,7 +2,7 @@
 env:
   padressPublic: ''
   puserName: ''
-  pmotdepasse: 'Marwen@12345'
+  pmotdepasse: ''
   
 name: Azure Deployment
 
@@ -50,6 +50,7 @@ jobs:
           echo "VM password: $password"
           echo "padressPublic=$avminfo" >> $GITHUB_ENV
           echo "puserName=$username" >> $GITHUB_ENV
+          echo "pmotdepasse=$password" >> $GITHUB_ENV
  
       - name: SSH to VM
         uses: appleboy/ssh-action@master
