@@ -58,9 +58,6 @@ jobs:
           echo "VM username: $username"
           echo "VM password: $password"
           echo "padressPublic=$avminfo" >> $GITHUB_ENV
-        
-        
-          
 
           
       - name: Open ports on VM
