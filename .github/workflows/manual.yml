@@ -38,16 +38,7 @@ jobs:
       - name: Azure Login
         run: az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}      
       
-      - name: Generate Strong Password
-        id: generate_password
-        run: echo "::set-output name=password::$(openssl rand -base64 20 | tr -d /=+)"
-
-
-      - name: Set SSH_PASSWORD Secret
-        run: |
-          echo "SSH_PASSWORD=${{ steps.generate_password.outputs.password }}" >> $GITHUB_ENV
-
-
+      
       
       - name: Deploy 
         run: az account list --output table
