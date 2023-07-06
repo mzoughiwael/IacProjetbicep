@@ -2,7 +2,7 @@
 env:
   padressPublic: ''
   puserName: ''
-  pmotdepasse: ''
+ 
   
 name: Azure Deployment
 
@@ -16,6 +16,7 @@ on:
       - main
  
  
+ 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
 
@@ -27,7 +28,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-
       - name: Install Azure CLI
         run: |
           curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
@@ -37,7 +37,28 @@ jobs:
       - name: Azure Login
         run: az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}      
       
+      - name: Generate Strong Password
+        id: generate_password
+        run: echo "::set-output name=password::$(openssl rand -base64 20 | tr -d /=+)"
 
+
+      - name: Set SSH_PASSWORD Secret
+        run: |
+          echo "SSH_PASSWORD=${{ steps.generate_password.outputs.password }}" >> $GITHUB_ENV
+
+
+      
+      - name: Deploy 
+        run: az account list --output table
+      
+      
+      - name: Create gr
+        run: az deployment sub create --subscription "TMT-NON-PROD-PLATFORM-01" --location eastus --template-file ResourceGroup.bicep
+             
+     
+      - name: Deploy Bicep Template
+        run: az deployment group create --resource-group pfeIacRg1 --template-file main.bicep --parameters adminPassword=${{ secrets.SSH_PASSWORD }}
+        
       - name: Get VM IP address
       
         run: |
@@ -45,24 +66,27 @@ jobs:
           avminfo=$(az vm list-ip-addresses --resource-group pfeIacRg1 --name chabbouhTestVm --query "[0].virtualMachine.network.publicIpAddresses[0].ipAddress" --output tsv)
           echo "VM IP address: $avminfo"
           username=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminUsername' --output tsv)
-          password=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminPassword' --output tsv)
           echo "VM username: $username"
-          echo "VM password: $password"
           echo "padressPublic=$avminfo" >> $GITHUB_ENV
           echo "puserName=$username" >> $GITHUB_ENV
-          echo "pmotdepasse=$password" >> $GITHUB_ENV
- 
+        
+          
+          
+      - name: Open ports on VM
+        run: |
+          az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name SSH --protocol Tcp --direction Inbound --priority 100 --destination-port-ranges 22
+          az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name HTTP --protocol Tcp --direction Inbound --priority 101 --destination-port-ranges 80
+          az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name HTTPS --protocol Tcp --direction Inbound --priority 102 --destination-port-ranges 443
+          
       - name: SSH to VM
         uses: appleboy/ssh-action@master
         with:
           host: ${{ env.padressPublic }}
           username: ${{ env.puserName }} 
-          password: ${{ env.pmotdepasse }} 
+          password: ${{ secrets.SSH_PASSWORD }} 
           script: |
             echo "Connected to Azure VM"
             echo "VM username: ${{ env.padressPublic }}"
-            echo "VM username: ${{ env.puserName }}"
-        
         
         
  
