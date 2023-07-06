@@ -79,6 +79,7 @@ jobs:
           script: |
             echo "Connected to Azure VM"
             echo "VM username: ${{ env.padressPublic }}"
+            echo "VM username: ${{ env.puserName }}"
         
         
  
