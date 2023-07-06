@@ -57,9 +57,9 @@ jobs:
           password=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminPassword' --output tsv)
           echo "VM username: $username"
           echo "VM password: $password"
-          
-      - name: Set xavminfo variable
-        run: echo "z=$avminfo" >> $GITHUB_ENV
+          echo "z=$avminfo" >> $GITHUB_ENV
+          echo "VM username: ${{ env.z }}"
+  
 
       
 
