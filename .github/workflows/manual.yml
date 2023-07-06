@@ -1,8 +1,8 @@
 # This is a basic workflow that is manually triggered
 env:
-  z: ''
-  x: 'chabbouhUserName'
-  y: 'Marwen@12345'
+  padressPublic: ''
+  puserName: ''
+  pmotdepasse: 'Marwen@12345'
   
 name: Azure Deployment
 
@@ -57,11 +57,10 @@ jobs:
           password=$(az vm show --resource-group pfeIacRg1 --name chabbouhTestVm --query 'osProfile.adminPassword' --output tsv)
           echo "VM username: $username"
           echo "VM password: $password"
-          echo "z=$avminfo" >> $GITHUB_ENV
-          echo "VM username: ${{ env.z }}"
-  
-
-      
+          echo "padressPublic=$avminfo" >> $GITHUB_ENV
+          echo "puserName=$username" >> $GITHUB_ENV
+          echo "pmotdepasse=$password" >> $GITHUB_ENV
+          
 
           
       - name: Open ports on VM
@@ -73,11 +72,12 @@ jobs:
       - name: SSH to VM
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ env.z }}
-          username: ${{ env.x }} 
-          password: ${{ env.y }} 
+          host: ${{ env.padressPublic }}
+          username: ${{ env.puserName }} 
+          password: ${{ env.pmotdepasse }} 
           script: |
             echo "Connected to Azure VM"
+            echo "VM username: ${{ env.padressPublic }}"
         
         
  
