@@ -21,7 +21,7 @@ param nsgName string = 'chabbouhNSG'
 
 @secure()
 
-param adminPassword string = 'Marwen@12345'
+param adminPassword string 
 
 
  
