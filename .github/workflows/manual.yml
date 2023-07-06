@@ -2,7 +2,7 @@
 env:
   padressPublic: ''
   puserName: ''
-  pmotdepasse: 'Marwen@12345'
+  pmotdepasse: ''
   
 name: Azure Deployment
 
