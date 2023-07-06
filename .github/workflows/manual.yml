@@ -1,7 +1,7 @@
 
 # This is a basic workflow that is manually triggered
 env:
-  avminfo: ''
+  avminfo: '20.124.189.148'
   uusername: 'chabbouhUserName'
   ppassword: 'Marwen@12345'
   
@@ -41,9 +41,9 @@ jobs:
       - name: SSH to VM
         uses: appleboy/ssh-action@master
         with:
-          host: '20.124.189.148'
-          username: 'ChabbouhUserName'
-          password: 'Marwen@12345'
+          host: ${{ env.avminfo }}
+          username: ${{ env.uusername }}
+          password: ${{ env.ppassword }}
           script: |
             echo "Connected to Azure VM"
             
