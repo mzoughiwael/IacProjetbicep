@@ -65,7 +65,7 @@ jobs:
       - name: SSH to VM
         uses: appleboy/ssh-action@master
         with:
-          host: $avminfo
+          host: $(az vm list-ip-addresses --resource-group pfeIacRg1 --name chabbouhTestVm --query "[0].virtualMachine.network.publicIpAddresses[0].ipAddress" --output tsv)
           username: $username
           password: $password
           script: |
