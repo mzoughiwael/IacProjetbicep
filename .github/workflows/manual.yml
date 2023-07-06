@@ -1,7 +1,7 @@
 # This is a basic workflow that is manually triggered
 env:
   padressPublic: ''
-  puserName: 'chabbouhUserName'
+  puserName: ''
   pmotdepasse: 'Marwen@12345'
   
 name: Azure Deployment
@@ -59,6 +59,7 @@ jobs:
           echo "VM username: $username"
           echo "VM password: $password"
           echo "padressPublic=$avminfo" >> $GITHUB_ENV
+          echo "puserName=$username" >> $GITHUB_ENV
         
           
 
