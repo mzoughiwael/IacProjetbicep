@@ -36,17 +36,7 @@ jobs:
       - name: Azure Login
         run: az login --service-principal --username ${{ secrets.AZURE_CLIENT_ID }} --password ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}      
       
-      - name: Deploy 
-        run: az account list --output table
-      
-      
-      - name: Create gr
-        run: az deployment sub create --subscription "TMT-NON-PROD-PLATFORM-01" --location eastus --template-file ResourceGroup.bicep
-             
-     
-      - name: Deploy Bicep Template
-        run: az deployment group create --resource-group pfeIacRg1 --template-file main.bicep
-        
+
       - name: Get VM IP address
       
         run: |
@@ -58,14 +48,7 @@ jobs:
           echo "VM username: $username"
           echo "VM password: $password"
           echo "padressPublic=$avminfo" >> $GITHUB_ENV
-
-          
-      - name: Open ports on VM
-        run: |
-          az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name SSH --protocol Tcp --direction Inbound --priority 100 --destination-port-ranges 22
-          az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name HTTP --protocol Tcp --direction Inbound --priority 101 --destination-port-ranges 80
-          az network nsg rule create --resource-group pfeIacRg1 --nsg-name chabbouhNSG --name HTTPS --protocol Tcp --direction Inbound --priority 102 --destination-port-ranges 443
-          
+ 
       - name: SSH to VM
         uses: appleboy/ssh-action@master
         with:
