@@ -79,7 +79,7 @@ jobs:
           host: ${{ env.padressPublic }}
           username: ${{ env.puserName }} 
           password: ${{ secrets.SSH_PASSWORD }} 
-          timeout: 300
+          timeout: 300s
           script: |
             echo "Connected to Azure VM"
             echo "VM username: ${{ env.padressPublic }}"
