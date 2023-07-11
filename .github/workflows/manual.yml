@@ -48,7 +48,7 @@ jobs:
         run: az deployment sub create --subscription "TMT-NON-PROD-PLATFORM-01" --location eastus --template-file ResourceGroup.bicep
         
       - name: Create kV
-        run: az deployment group create --resource-group pfeIacRg1 --template-file keyvault.bicep --parameters secretValue=${{ secrets.SSH_PASSWORD }}      
+        run: az deployment group create --resource-group pfeIacRg1 --template-file Keyvault.bicep  --parameters secretValue=${{ secrets.SSH_PASSWORD }}      
 
       - name: Create machineV
         run: az deployment group create --resource-group pfeIacRg1 --template-file main.bicep        
