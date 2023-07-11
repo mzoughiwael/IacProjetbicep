@@ -79,37 +79,9 @@ jobs:
           host: ${{ env.padressPublic }}
           username: ${{ env.puserName }} 
           password: ${{ secrets.SSH_PASSWORD }} 
+          timeout: 300
           script: |
             echo "Connected to Azure VM"
-            echo "VM username: ${{ env.padressPublic }}" 
-            connected=false
-            max_attempts=10
-            attempts=0
+            echo "VM username: ${{ env.padressPublic }}"
             
-      
-        
-            while [[ $connected == false && $attempts -lt $max_attempts ]]; do
-              ssh_result=$(ssh -o BatchMode=yes -o ConnectTimeout=5 ${{ env.puserName }}@${{ env.padressPublic }} "echo 2>&1")
-        
-              if [[ $ssh_result == *"Connected to Azure VM"* ]]; then
-               connected=true
-               echo "SSH connection established."
-              else
-                echo "SSH connection not yet established. Retrying..."
-                sleep 5
-                attempts=$((attempts+1))
-              fi
-            done
-      
-            if [[ $connected == false ]]; then
-              echo "Failed to establish SSH connection after $attempts attempts."
-            fi
           
-          
-
-
-        
-  
-
-
-     
