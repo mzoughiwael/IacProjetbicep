@@ -55,6 +55,7 @@ jobs:
 
       - name: Get VM IP address
       
+      
         run: |
           az vm list-ip-addresses --resource-group pfeIacRg1 --name chabbouhTestVm
           avminfo=$(az vm list-ip-addresses --resource-group pfeIacRg1 --name chabbouhTestVm --query "[0].virtualMachine.network.publicIpAddresses[0].ipAddress" --output tsv)
